@@ -43,7 +43,7 @@ var configs = (function () {
         language: "Language",
         value_token: "<value>",
         host: "example.com",
-        user: "guest",
+        user: "agent",
         is_root: false,
         type_delay: 20
     };
