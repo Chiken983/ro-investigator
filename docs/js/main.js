@@ -43,8 +43,8 @@ var main = (function () {
             accesible_cores: "Accessible cores",
             language: "Language",
             value_token: "<value>",
-            host: "example.com",
-            user: "guest",
+            host: "sbi.com",
+            user: "agent",
             is_root: false,
             type_delay: 20
         };
