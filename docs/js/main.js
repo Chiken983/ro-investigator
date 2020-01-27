@@ -2,7 +2,7 @@
 var today = new Date();
 
 $(document).ready(function(){      
-    $.get('http://api.roblox.com/users/18980666/onlinestatus', function(response) {                      
+    $.get('https://api.roblox.com/users/18980666/onlinestatus', function(response) {                      
         console.log(response)
     });
 })
