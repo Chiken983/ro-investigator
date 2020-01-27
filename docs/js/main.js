@@ -1,12 +1,12 @@
 "use strict";
 var today = new Date();
 
+console.log("V1.2")
 $(document).ready(function(){      
     $.get('https://api.roblox.com/users/18980666/onlinestatus', function(response) {                      
         console.log(response)
     });
 })
-
 
 var main = (function () {
     /**
