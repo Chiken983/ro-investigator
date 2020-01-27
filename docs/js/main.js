@@ -1,4 +1,12 @@
 "use strict";
+var today = new Date();
+
+$(document).ready(function(){      
+    $.get('http://api.roblox.com/users/18980666/onlinestatus', function(response) {                      
+        console.log(response)
+    });
+})
+
 
 var main = (function () {
     /**
@@ -27,7 +35,7 @@ var main = (function () {
             rmdir_help: "Remove directory, this command will only work if the folders are empty.",
             touch_help: "Change file timestamps. If the file doesn't exist, it's created an empty one.",
             sudo_help: "Execute a command as the superuser.",
-            welcome: "Welcome to FTW (Fake Terminal Website)! :)\nIn order for you to start customizing the texts, go to js/main.js and replace the texts located at the configs var.\nIn that same file, you can define all the fake files you want as well as their content. This files will appear on the sidenav.\nAlso, don't forget to change the colors on the css/main.css file as well as the website title on the index.html file.\nNow in order to get started, feel free to either execute the 'help' command or use the more user-friendly colored sidenav at your left.\nIn order to skip text rolling, double click/touch anywhere.",
+            welcome: "Terminal process initiated at: " + today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() + ", " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + "\nDouble click to skip text typewriting, press TAB for autofill.\n\nWELCOME, USER\n",
             internet_explorer_warning: "NOTE: I see you're using internet explorer, this website won't work properly.",
             welcome_file_name: "welcome_message.txt",
             invalid_command_message: "<value>: command not found.",
@@ -43,8 +51,8 @@ var main = (function () {
             accesible_cores: "Accessible cores",
             language: "Language",
             value_token: "<value>",
-            host: "sbi.com",
-            user: "agent",
+            host: "investigator",
+            user: "ro",
             is_root: false,
             type_delay: 20
         };
@@ -137,7 +145,8 @@ var main = (function () {
         RM: { value: "rm", help: configs.getInstance().rm_help },
         RMDIR: { value: "rmdir", help: configs.getInstance().rmdir_help },
         TOUCH: { value: "touch", help: configs.getInstance().touch_help },
-        SUDO: { value: "sudo", help: configs.getInstance().sudo_help }
+        SUDO: { value: "sudo", help: configs.getInstance().sudo_help },
+        USERSTATUS: { value: "userstatus", help: configs.getInstance().sudo_help}
     };
 
 
@@ -348,6 +357,9 @@ var main = (function () {
             case cmds.MV.value:
             case cmds.RMDIR.value:
             case cmds.RM.value:
+            case cmds.USERSTATUS.value:
+                this.userstatus(cmdComponents);
+                break;
             case cmds.TOUCH.value:
                 this.permissionDenied(cmdComponents);
                 break;
@@ -400,6 +412,11 @@ var main = (function () {
         }
         this.type(result.trim(), this.unlock.bind(this));
     };
+
+    Terminal.prototype.userstatus = function(cmdComponents) {
+        console.log(cmdComponents)
+        this.type("IDIOT!", this.unlock.bind(this))
+    }
 
     Terminal.prototype.clear = function () {
         this.output.textContent = "";
