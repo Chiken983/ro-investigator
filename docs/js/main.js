@@ -409,7 +409,7 @@ var main = (function () {
     };
 
     Terminal.prototype.userstatus = function(cmdComponents) {
-        $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(`http://api.roblox.com/users/${cmdComponents[1]}/onlinestatus`) + '&callback=?').done(data => {
+        $.getJSON('https://www.whateverorigin.org/get?url=' + encodeURIComponent(`https://api.roblox.com/users/${cmdComponents[1]}/onlinestatus`) + '&callback=?').done(data => {
             let parsed = JSON.parse(data.contents)
             console.log(parsed)
             this.type(`Last online on: ${parsed.LastOnline.substring(0,10)} at ${parsed.LastOnline.substring(11,19)}`,this.unlock.bind(this))
