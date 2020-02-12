@@ -1,13 +1,6 @@
 "use strict";
 var today = new Date();
 
-console.log("V1.2")
-$(document).ready(function(){      
-    $.get('https://api.roblox.com/users/18980666/onlinestatus', function(response) {                      
-        console.log(response)
-    });
-})
-
 var main = (function () {
     /**
      * CONFIGS
@@ -35,6 +28,7 @@ var main = (function () {
             rmdir_help: "Remove directory, this command will only work if the folders are empty.",
             touch_help: "Change file timestamps. If the file doesn't exist, it's created an empty one.",
             sudo_help: "Execute a command as the superuser.",
+            userstatus_help: "Obtain the last online of a user, requires an UserId.",
             welcome: "Terminal process initiated at: " + today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate() + ", " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + "\nDouble click to skip text typewriting, press TAB for autofill.\n\nWELCOME, USER\n",
             internet_explorer_warning: "NOTE: I see you're using internet explorer, this website won't work properly.",
             welcome_file_name: "welcome_message.txt",
@@ -133,20 +127,20 @@ var main = (function () {
     InvalidArgumentException.prototype.constructor = InvalidArgumentException;
 
     var cmds = {
-        LS: { value: "ls", help: configs.getInstance().ls_help },
-        CAT: { value: "cat", help: configs.getInstance().cat_help },
+        //LS: { value: "ls", help: configs.getInstance().ls_help },
+        //CAT: { value: "cat", help: configs.getInstance().cat_help },
+        //CD: { value: "cd", help: configs.getInstance().cd_help },
+        //MV: { value: "mv", help: configs.getInstance().mv_help },
+        //RM: { value: "rm", help: configs.getInstance().rm_help },
+        //RMDIR: { value: "rmdir", help: configs.getInstance().rmdir_help },
+        //TOUCH: { value: "touch", help: configs.getInstance().touch_help },
+        //SUDO: { value: "sudo", help: configs.getInstance().sudo_help },
         WHOAMI: { value: "whoami", help: configs.getInstance().whoami_help },
         DATE: { value: "date", help: configs.getInstance().date_help },
         HELP: { value: "help", help: configs.getInstance().help_help },
         CLEAR: { value: "clear", help: configs.getInstance().clear_help },
         REBOOT: { value: "reboot", help: configs.getInstance().reboot_help },
-        CD: { value: "cd", help: configs.getInstance().cd_help },
-        MV: { value: "mv", help: configs.getInstance().mv_help },
-        RM: { value: "rm", help: configs.getInstance().rm_help },
-        RMDIR: { value: "rmdir", help: configs.getInstance().rmdir_help },
-        TOUCH: { value: "touch", help: configs.getInstance().touch_help },
-        SUDO: { value: "sudo", help: configs.getInstance().sudo_help },
-        USERSTATUS: { value: "userstatus", help: configs.getInstance().sudo_help}
+        USERSTATUS: { value: "userstatus", help: configs.getInstance().userstatus_help}
     };
 
 
@@ -178,6 +172,7 @@ var main = (function () {
     };
 
     Terminal.prototype.type = function (text, callback) {
+        console.log(text)
         this.typeSimulator.type(text, callback);
     };
 
@@ -332,12 +327,12 @@ var main = (function () {
         var cmdComponents = this.cmdLine.value.trim().split(" ");
         this.lock();
         switch (cmdComponents[0]) {
-            case cmds.CAT.value:
-                this.cat(cmdComponents);
-                break;
-            case cmds.LS.value:
-                this.ls();
-                break;
+            //case cmds.CAT.value:
+                //this.cat(cmdComponents);
+                //break;
+            //case cmds.LS.value:
+                //this.ls();
+                //break;
             case cmds.WHOAMI.value:
                 this.whoami();
                 break;
@@ -353,19 +348,19 @@ var main = (function () {
             case cmds.REBOOT.value:
                 this.reboot();
                 break;
-            case cmds.CD.value:
-            case cmds.MV.value:
-            case cmds.RMDIR.value:
-            case cmds.RM.value:
+            //case cmds.CD.value:
+            //case cmds.MV.value:
+            //case cmds.RMDIR.value:
+            //case cmds.RM.value:
             case cmds.USERSTATUS.value:
                 this.userstatus(cmdComponents);
                 break;
-            case cmds.TOUCH.value:
-                this.permissionDenied(cmdComponents);
-                break;
-            case cmds.SUDO.value:
-                this.sudo();
-                break;
+            //case cmds.TOUCH.value:
+                //this.permissionDenied(cmdComponents);
+                //break;
+            //case cmds.SUDO.value:
+                //this.sudo();
+                //break;
             default:
                 this.invalidCommand(cmdComponents);
                 break;
@@ -414,8 +409,11 @@ var main = (function () {
     };
 
     Terminal.prototype.userstatus = function(cmdComponents) {
-        console.log(cmdComponents)
-        this.type("IDIOT!", this.unlock.bind(this))
+        $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(`http://api.roblox.com/users/${cmdComponents[1]}/onlinestatus`) + '&callback=?').done(data => {
+            let parsed = JSON.parse(data.contents)
+            console.log(parsed)
+            this.type(`Last online on: ${parsed.LastOnline.substring(0,10)} at ${parsed.LastOnline.substring(11,19)}`,this.unlock.bind(this))
+        })
     }
 
     Terminal.prototype.clear = function () {
